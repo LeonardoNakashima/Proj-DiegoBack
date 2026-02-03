@@ -46,4 +46,19 @@ public class Professor {
         return senha;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setId_Disciplina(Long id_Disciplina) {
+        this.id_Disciplina = id_Disciplina;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 }
