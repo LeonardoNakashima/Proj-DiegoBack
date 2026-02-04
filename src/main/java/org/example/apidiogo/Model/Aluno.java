@@ -1,10 +1,13 @@
 package org.example.apidiogo.Model;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Aluno {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matricula;
 
     private String nome;
@@ -25,6 +28,7 @@ public class Aluno {
     public Long getMatricula() {
         return matricula;
     }
+
 
     public String getNome() {
         return nome;

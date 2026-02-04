@@ -2,25 +2,22 @@ package org.example.apidiogo.Dto;
 
 public class AlunoResponseDto {
 
-    private Long id;
+    private Long matricula;
     private String nome;
     private String email;
 
     public AlunoResponseDto() {}
 
-    public AlunoResponseDto(Long id, String nome, String email) {
-        this.id = id;
+    public AlunoResponseDto(Long matricula, String nome, String email) {
+        this.matricula = matricula;
         this.nome = nome;
         this.email = email;
     }
 
-    public Long getId() {
-        return id;
+    public Long getMatricula() {
+        return matricula;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;

@@ -1,14 +1,15 @@
 package org.example.apidiogo.Controller;
 
+import jakarta.validation.Valid;
+import org.example.apidiogo.Dto.AlunoRequestDto;
 import org.example.apidiogo.Dto.AlunoResponseDto;
+import org.example.apidiogo.Model.Aluno;
 import org.example.apidiogo.Openapi.AlunoOpenApi;
 import org.example.apidiogo.Repository.AlunoRepository;
 import org.example.apidiogo.Service.AlunoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,9 +18,11 @@ import java.util.List;
 public class AlunoController implements AlunoOpenApi {
 
     private final AlunoService service;
+    private final AlunoService alunoService;
 
-    public AlunoController(AlunoService service) {
+    public AlunoController(AlunoService service, AlunoService alunoService) {
         this.service = service;
+        this.alunoService = alunoService;
     }
 
     @GetMapping("/list")
@@ -34,6 +37,18 @@ public class AlunoController implements AlunoOpenApi {
         return ResponseEntity.ok(service.listByMatricula(matricula));
     }
 
+
+    @PostMapping("/create")
+    public ResponseEntity<AlunoResponseDto> createAluno(@RequestBody @Valid AlunoRequestDto dto) {
+        AlunoResponseDto response = alunoService.createAluno(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping("/delete/{matricula}")
+    public ResponseEntity<Aluno> deleteAluno(@PathVariable Long matricula) {
+        service.deleteAluno(matricula);
+        return ResponseEntity.noContent().build();
+    }
 
 
 }
