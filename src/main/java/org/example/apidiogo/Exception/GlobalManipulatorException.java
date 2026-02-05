@@ -13,4 +13,10 @@ public class GlobalManipulatorException {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("Aluno not found "+ex.getMessage());
     }
+
+    @ExceptionHandler(AdminNotFoundException.class)
+    public ResponseEntity<String> handleAdminNotFoundException(AdminNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Admin not found "+ex.getMessage());
+    }
 }

@@ -18,11 +18,9 @@ import java.util.List;
 public class AlunoController implements AlunoOpenApi {
 
     private final AlunoService service;
-    private final AlunoService alunoService;
 
-    public AlunoController(AlunoService service, AlunoService alunoService) {
+    public AlunoController(AlunoService service) {
         this.service = service;
-        this.alunoService = alunoService;
     }
 
     @GetMapping("/list")
@@ -40,7 +38,7 @@ public class AlunoController implements AlunoOpenApi {
 
     @PostMapping("/create")
     public ResponseEntity<AlunoResponseDto> createAluno(@RequestBody @Valid AlunoRequestDto dto) {
-        AlunoResponseDto response = alunoService.createAluno(dto);
+        AlunoResponseDto response = service.createAluno(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -1,0 +1,67 @@
+package org.example.apidiogo.Service;
+
+import org.example.apidiogo.Dto.AdminRequestDto;
+import org.example.apidiogo.Dto.AdminResponseDto;
+import org.example.apidiogo.Dto.AlunoRequestDto;
+import org.example.apidiogo.Dto.AlunoResponseDto;
+import org.example.apidiogo.Exception.AdminNotFoundException;
+import org.example.apidiogo.Exception.AlunoNotFoundException;
+import org.example.apidiogo.Model.Admin;
+import org.example.apidiogo.Model.Aluno;
+import org.example.apidiogo.Repository.AdminRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+public class AdminService {
+    private final AdminRepository adminRepository;
+
+    public AdminService(AdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
+    }
+
+    private Admin fromRequestDTO(AdminRequestDto dto) {
+        Admin admin = new Admin();
+        admin.setUsuario(dto.getUsuario());
+        admin.setSenha(dto.getSenha());
+        return admin;
+    }
+
+    private AdminResponseDto toResponseDto(Admin admin) {
+        return new AdminResponseDto(
+                admin.getId(),
+                admin.getUsuario()
+        );
+    }
+
+    public List<AdminResponseDto> listAll() {
+        return adminRepository.findAll()
+                .stream()
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<AdminResponseDto> listById(Long id) {
+        Optional<Admin> admin = adminRepository.findById(id);
+        return admin.stream()
+                .map(this::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    public AdminResponseDto createAdmin(AdminRequestDto dto) {
+        Admin admin = fromRequestDTO(dto);
+        Admin salvo = adminRepository.save(admin);
+        return toResponseDto(salvo);
+    }
+
+    public void deleteAdmin(Long id) {
+        Admin admin = adminRepository.findById(id)
+                .orElseThrow(() -> new AdminNotFoundException("Admin com id " + id +" não foi encontrado: 404"));
+        adminRepository.delete(admin);
+    }
+
+
+}
