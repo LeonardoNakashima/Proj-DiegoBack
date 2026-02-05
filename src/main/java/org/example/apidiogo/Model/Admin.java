@@ -13,7 +13,7 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;
+    private String usuario;
 
     private String senha;
 
@@ -21,8 +21,8 @@ public class Admin {
 
     }
 
-    public Admin(Long id, String email, String senha) {
-        this.email = email;
+    public Admin(Long id, String usuario, String senha) {
+        this.usuario = usuario;
         this.senha = senha;
     }
 
@@ -31,16 +31,16 @@ public class Admin {
         return id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsuario() {
+        return usuario;
     }
 
     public String getSenha() {
         return senha;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public void setSenha(String senha) {
