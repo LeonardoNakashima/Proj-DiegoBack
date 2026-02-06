@@ -1,7 +1,9 @@
 package org.example.apidiogo.Service;
 
+import org.example.apidiogo.Model.Admin;
 import org.example.apidiogo.Model.Aluno;
 import org.example.apidiogo.Model.Professor;
+import org.example.apidiogo.Repository.AdminRepository;
 import org.example.apidiogo.Repository.AlunoRepository;
 import org.example.apidiogo.Repository.ProfessorRepository;
 import org.example.apidiogo.Security.JwtProvider;
@@ -15,17 +17,20 @@ public class LoginService {
 
     private final AlunoRepository alunoRepository;
     private final ProfessorRepository professorRepository;
+    private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
     public LoginService(
             AlunoRepository alunoRepository,
             ProfessorRepository professorRepository,
+            AdminRepository adminRepository,
             PasswordEncoder passwordEncoder,
             JwtProvider jwtProvider
     ) {
         this.alunoRepository = alunoRepository;
         this.professorRepository = professorRepository;
+        this.adminRepository = adminRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtProvider = jwtProvider;
     }
@@ -43,9 +48,8 @@ public class LoginService {
 
             return jwtProvider.generateTokenAluno(aluno);
 
-        } else {
-            String usuarioNormalized = login.toLowerCase().trim();
-            Optional<Professor> optionalProfessor = professorRepository.findByUsuario(usuarioNormalized);
+        } else if (login.matches("^(?!admin$).+\n")) {
+            Optional<Professor> optionalProfessor = professorRepository.findByUsuario(login);
             Professor professor = optionalProfessor.orElseThrow(() -> new IllegalArgumentException("Professor não encontrado"));
 
             if (!passwordEncoder.matches(senha, professor.getSenha())) {
@@ -53,6 +57,14 @@ public class LoginService {
             }
 
             return jwtProvider.generateTokenProfessor(professor);
+        }
+        else {
+            Optional<Admin> op = adminRepository.findByUsuario(login);
+            Admin adm = op.orElseThrow(() -> new IllegalArgumentException("Administrador não encontrado"));
+            if (!passwordEncoder.matches(senha, adm.getSenha())) {
+                throw new IllegalArgumentException("Senha inválida");
+            }
+            return jwtProvider.generateTokenAdmin(adm);
         }
     }
 }
