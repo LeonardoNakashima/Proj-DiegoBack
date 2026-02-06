@@ -1,7 +1,6 @@
 package org.example.apidiogo.Exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,5 +17,11 @@ public class GlobalManipulatorException {
     public ResponseEntity<String> handleAdminNotFoundException(AdminNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("Admin not found "+ex.getMessage());
+    }
+
+    @ExceptionHandler(DisciplinaNotFoundException.class)
+    public ResponseEntity<String> handleDisciplinaNotFoundException(DisciplinaNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Disciplina not found "+ex.getMessage());
     }
 }
