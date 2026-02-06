@@ -19,7 +19,7 @@ public class Professor {
 
     public Professor() {}
 
-    public Professor(Long id, String nome, Long id_Disciplina, String usuario, String senha) {
+    public Professor(Long id, String nome, String usuario, String senha) {
         this.id = id;
         this.nome = nome;
         this.usuario = usuario;

@@ -19,7 +19,7 @@ public interface DisciplinaOpenApi {
             summary = "Lista todas as Disciplinas",
             description = "Retorna todas as disciplinas cadastradas no sistema."
     )
-    ResponseEntity<List<AdminResponseDto>> listDisciplinas();
+    ResponseEntity<List<DisciplinaResponseDto>> listDisciplinas();
 
     @Operation(
             summary = "Lista Disciplina por id",
