@@ -24,4 +24,12 @@ public class GlobalManipulatorException {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body("Disciplina not found "+ex.getMessage());
     }
+
+
+    @ExceptionHandler(ProfessorNotFoundException.class)
+    public ResponseEntity<String> handleProfessorNotFoundException(ProfessorNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Professor not found "+ex.getMessage());
+    }
+
 }

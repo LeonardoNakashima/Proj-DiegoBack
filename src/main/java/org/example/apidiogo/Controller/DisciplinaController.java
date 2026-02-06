@@ -7,6 +7,7 @@ import org.example.apidiogo.Dto.DisciplinaRequestDto;
 import org.example.apidiogo.Dto.DisciplinaResponseDto;
 import org.example.apidiogo.Model.Admin;
 import org.example.apidiogo.Model.Disciplina;
+import org.example.apidiogo.Openapi.DisciplinaOpenApi;
 import org.example.apidiogo.Service.AdminService;
 import org.example.apidiogo.Service.DisciplinaService;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/disciplina")
-public class DisciplinaController {
+public class DisciplinaController implements DisciplinaOpenApi {
 
     private final DisciplinaService service;
 
