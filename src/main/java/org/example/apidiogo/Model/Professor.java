@@ -13,8 +13,6 @@ public class Professor {
 
     private String nome;
 
-    private Long id_Disciplina;
-
     private String usuario;
 
     private String senha;
@@ -24,7 +22,6 @@ public class Professor {
     public Professor(Long id, String nome, Long id_Disciplina, String usuario, String senha) {
         this.id = id;
         this.nome = nome;
-        this.id_Disciplina = id_Disciplina;
         this.usuario = usuario;
         this.senha = senha;
     }
@@ -37,10 +34,6 @@ public class Professor {
         return nome;
     }
 
-    public Long getId_Disciplina() {
-        return id_Disciplina;
-    }
-
     public String getUsuario() {
         return usuario;
     }
@@ -51,10 +44,6 @@ public class Professor {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public void setId_Disciplina(Long id_Disciplina) {
-        this.id_Disciplina = id_Disciplina;
     }
 
     public void setUsuario(String usuario) {
