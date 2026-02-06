@@ -8,6 +8,9 @@ public class ProfessorRequestDto {
 
     private String senha;
 
+    private String disciplina;
+
+
     public String getNome() {
         return nome;
     }
@@ -30,5 +33,12 @@ public class ProfessorRequestDto {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getDisciplina() {
+        return disciplina;
+    }
+    public void setDisciplina(String disciplina) {
+        this.disciplina = disciplina;
     }
 }
