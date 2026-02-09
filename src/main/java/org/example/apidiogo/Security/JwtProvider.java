@@ -3,6 +3,7 @@ package org.example.apidiogo.Security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.example.apidiogo.Model.Admin;
 import org.example.apidiogo.Model.Aluno;
 import org.example.apidiogo.Model.Professor;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +44,15 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(professor.getUsuario())
                 .claim("role", "ROLE_PROFESSOR")
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(getKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+    public String generateTokenAdmin(Admin admin) {
+        return Jwts.builder()
+                .setSubject(admin.getUsuario())
+                .claim("role", "ADM")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
