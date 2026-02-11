@@ -1,12 +1,9 @@
 package org.example.apidiogo.Controller;
-
 import jakarta.validation.Valid;
-import org.example.apidiogo.Dto.AdminRequestDto;
-import org.example.apidiogo.Dto.AdminResponseDto;
 import org.example.apidiogo.Dto.BoletimRequestDto;
 import org.example.apidiogo.Dto.BoletimResponseDto;
-import org.example.apidiogo.Model.Admin;
 import org.example.apidiogo.Model.Boletim;
+import org.example.apidiogo.Openapi.BoletimOpenApi;
 import org.example.apidiogo.Service.BoletimService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/boletim")
-public class BoletimController {
+public class BoletimController implements BoletimOpenApi {
 
     private final BoletimService service;
     public BoletimController(BoletimService service) {
