@@ -32,4 +32,10 @@ public class GlobalManipulatorException {
                 .body("Professor not found "+ex.getMessage());
     }
 
+    @ExceptionHandler(BoletimNotFoundException.class)
+    public ResponseEntity<String> handleBoletimNotFoundException(BoletimNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Boletim not found "+ex.getMessage());
+    }
+
 }
