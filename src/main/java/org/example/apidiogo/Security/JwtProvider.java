@@ -52,7 +52,7 @@ public class JwtProvider {
     public String generateTokenAdmin(Admin admin) {
         return Jwts.builder()
                 .setSubject(admin.getUsuario())
-                .claim("role", "ADM")
+                .claim("role", "ROLE_ADMIN")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(getKey(), SignatureAlgorithm.HS256)

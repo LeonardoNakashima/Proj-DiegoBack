@@ -48,7 +48,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                     .orElseThrow(() -> new UsernameNotFoundException("Administrador não encontrado"));
             return User.withUsername(admin.getUsuario())
                     .password(admin.getSenha())
-                    .authorities("ADM")
+                    .authorities("ROLE_ADMIN")
                     .build();
         }
     }
