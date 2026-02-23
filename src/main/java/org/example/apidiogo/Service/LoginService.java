@@ -1,5 +1,8 @@
 package org.example.apidiogo.Service;
 
+import org.example.apidiogo.Exception.AdminNotFoundException;
+import org.example.apidiogo.Exception.AlunoNotFoundException;
+import org.example.apidiogo.Exception.ProfessorNotFoundException;
 import org.example.apidiogo.Model.Admin;
 import org.example.apidiogo.Model.Aluno;
 import org.example.apidiogo.Model.Professor;
@@ -40,7 +43,7 @@ public class LoginService {
         if (login.matches("\\d+")) {
             Long matricula = Long.valueOf(login);
             Optional<Aluno> optionalAluno = alunoRepository.findAlunoByMatricula(matricula);
-            Aluno aluno = optionalAluno.orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado"));
+            Aluno aluno = optionalAluno.orElseThrow(() -> new AlunoNotFoundException("Aluno não encontrado"));
 
             if (!passwordEncoder.matches(senha, aluno.getSenha())) {
                 throw new IllegalArgumentException("Senha inválida");
@@ -50,7 +53,7 @@ public class LoginService {
 
         } else if (login.matches("^(?!admin$).+\n")) {
             Optional<Professor> optionalProfessor = professorRepository.findByUsuario(login);
-            Professor professor = optionalProfessor.orElseThrow(() -> new IllegalArgumentException("Professor não encontrado"));
+            Professor professor = optionalProfessor.orElseThrow(() -> new ProfessorNotFoundException("Professor não encontrado"));
 
             if (!passwordEncoder.matches(senha, professor.getSenha())) {
                 throw new IllegalArgumentException("Senha inválida");
@@ -60,7 +63,7 @@ public class LoginService {
         }
         else {
             Optional<Admin> op = adminRepository.findByUsuario(login);
-            Admin adm = op.orElseThrow(() -> new IllegalArgumentException("Administrador não encontrado"));
+            Admin adm = op.orElseThrow(() -> new AdminNotFoundException("Administrador não encontrado"));
             if (!passwordEncoder.matches(senha, adm.getSenha())) {
                 throw new IllegalArgumentException("Senha inválida");
             }

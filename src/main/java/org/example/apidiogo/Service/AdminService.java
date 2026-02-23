@@ -1,13 +1,12 @@
 package org.example.apidiogo.Service;
 
+import jakarta.validation.Valid;
 import org.example.apidiogo.Dto.AdminRequestDto;
 import org.example.apidiogo.Dto.AdminResponseDto;
 import org.example.apidiogo.Dto.AlunoRequestDto;
 import org.example.apidiogo.Dto.AlunoResponseDto;
 import org.example.apidiogo.Exception.AdminNotFoundException;
-import org.example.apidiogo.Exception.AlunoNotFoundException;
 import org.example.apidiogo.Model.Admin;
-import org.example.apidiogo.Model.Aluno;
 import org.example.apidiogo.Repository.AdminRepository;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +60,17 @@ public class AdminService {
         Admin admin = adminRepository.findById(id)
                 .orElseThrow(() -> new AdminNotFoundException("Admin com id " + id +" não foi encontrado: 404"));
         adminRepository.delete(admin);
+    }
+
+    public AdminResponseDto updateAdmin(@Valid AdminRequestDto adminAtualizado, Long id) {
+        Admin existente = adminRepository.findById(id)
+                .orElseThrow(() -> new AdminNotFoundException("Admin com o id " + id + " não encontrado"));
+        existente.setUsuario(adminAtualizado.getUsuario());
+        existente.setSenha(adminAtualizado.getSenha());
+
+        Admin atualizado = adminRepository.save(existente);
+        return toResponseDto(atualizado);
+
     }
 
 
