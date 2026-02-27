@@ -1,5 +1,7 @@
 package org.example.apidiogo.Controller;
 import jakarta.validation.Valid;
+import org.example.apidiogo.Dto.AlunoRequestDto;
+import org.example.apidiogo.Dto.AlunoResponseDto;
 import org.example.apidiogo.Dto.BoletimRequestDto;
 import org.example.apidiogo.Dto.BoletimResponseDto;
 import org.example.apidiogo.Model.Boletim;
@@ -10,14 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/boletim")
 public class BoletimController implements BoletimOpenApi {
 
     private final BoletimService service;
-    public BoletimController(BoletimService service) {
+    private final BoletimService boletimService;
+
+    public BoletimController(BoletimService service, BoletimService boletimService) {
         this.service = service;
+        this.boletimService = boletimService;
     }
 
     @GetMapping("/list")
@@ -43,6 +48,10 @@ public class BoletimController implements BoletimOpenApi {
         return ResponseEntity.noContent().build();
     }
 
-
+    @PutMapping("/update/{id}")
+    public ResponseEntity<BoletimResponseDto> updateBoletim(@PathVariable Long id, @RequestBody @Valid BoletimRequestDto dto) {
+        BoletimResponseDto response = boletimService.updateBoletim(dto, id);
+        return ResponseEntity.ok(response);
+    }
 
 }

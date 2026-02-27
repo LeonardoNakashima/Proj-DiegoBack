@@ -1,10 +1,13 @@
 package org.example.apidiogo.Service;
 
+import jakarta.validation.Valid;
 import org.example.apidiogo.Dto.*;
 import org.example.apidiogo.Exception.AdminNotFoundException;
+import org.example.apidiogo.Exception.BoletimNotFoundException;
 import org.example.apidiogo.Exception.DisciplinaNotFoundException;
 import org.example.apidiogo.Model.Admin;
 import org.example.apidiogo.Model.Aluno;
+import org.example.apidiogo.Model.Boletim;
 import org.example.apidiogo.Model.Disciplina;
 import org.example.apidiogo.Repository.DisciplinaRepository;
 import org.springframework.stereotype.Service;
@@ -62,4 +65,13 @@ public class DisciplinaService {
         disciplinaRepository.delete(disciplina);
     }
 
+    public DisciplinaResponseDto updateDisciplina(@Valid DisciplinaRequestDto disciplinaAtualizado, Long id) {
+        Disciplina existente = disciplinaRepository.findDisciplinaById(id)
+                .orElseThrow(() -> new DisciplinaNotFoundException("Disciplina com o id " + id + " não encontrado"));
+        existente.setNome(disciplinaAtualizado.getNome());
+        Disciplina atualizado = disciplinaRepository.save(existente);
+        return toResponseDto(atualizado);
     }
+
+
+}

@@ -21,27 +21,27 @@ public class AlunoRequestDto {
     private String senha;
 
 
-    public String getNome() {
+    public @Size(min = 3, message = "O nome deve ter 3 ou mais caracteres") @Valid String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(@Size(min = 3, message = "O nome deve ter 3 ou mais caracteres") @Valid String nome) {
         this.nome = nome;
     }
 
-    public String getEmail() {
+    public @Email @Valid String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@Email @Valid String email) {
         this.email = email;
     }
 
-    public String getSenha() {
+    public @Size(min = 8, message = "Senha deve ter mais de 8 caracteres") @NotNull(message = "Senha não pode ser nula") @Valid String getSenha() {
         return senha;
     }
 
-    public void setSenha(String senha) {
+    public void setSenha(@Size(min = 8, message = "Senha deve ter mais de 8 caracteres") @NotNull(message = "Senha não pode ser nula") @Valid String senha) {
         this.senha = senha;
     }
 }

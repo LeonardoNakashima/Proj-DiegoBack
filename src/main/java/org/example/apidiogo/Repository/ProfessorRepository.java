@@ -13,6 +13,8 @@ public interface ProfessorRepository extends JpaRepository<Professor, Long> {
 
     Optional<Professor> findByUsuario(String usuario);
 
+    Optional<Professor> findProfessorById(Long id);
+
     @Modifying
     @Transactional
     @Query(

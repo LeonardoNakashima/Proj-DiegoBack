@@ -8,6 +8,7 @@ import org.example.apidiogo.Dto.AlunoResponseDto;
 import org.example.apidiogo.Exception.AdminNotFoundException;
 import org.example.apidiogo.Model.Admin;
 import org.example.apidiogo.Repository.AdminRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,15 +18,20 @@ import java.util.stream.Collectors;
 @Service
 public class AdminService {
     private final AdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminService(AdminRepository adminRepository) {
+
+    public AdminService(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
+        this.passwordEncoder =  passwordEncoder;
+
     }
 
     private Admin fromRequestDTO(AdminRequestDto dto) {
         Admin admin = new Admin();
         admin.setUsuario(dto.getUsuario());
-        admin.setSenha(dto.getSenha());
+        String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
+        admin.setSenha(senhaCriptografada);
         return admin;
     }
 

@@ -1,10 +1,7 @@
 package org.example.apidiogo.Controller;
 
 import jakarta.validation.Valid;
-import org.example.apidiogo.Dto.AdminRequestDto;
-import org.example.apidiogo.Dto.AdminResponseDto;
-import org.example.apidiogo.Dto.DisciplinaRequestDto;
-import org.example.apidiogo.Dto.DisciplinaResponseDto;
+import org.example.apidiogo.Dto.*;
 import org.example.apidiogo.Model.Admin;
 import org.example.apidiogo.Model.Disciplina;
 import org.example.apidiogo.Openapi.DisciplinaOpenApi;
@@ -15,15 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/disciplina")
 public class DisciplinaController implements DisciplinaOpenApi {
 
     private final DisciplinaService service;
+    private final DisciplinaService disciplinaService;
 
-    public DisciplinaController(DisciplinaService service) {
+    public DisciplinaController(DisciplinaService service, DisciplinaService disciplinaService) {
         this.service = service;
+        this.disciplinaService = disciplinaService;
     }
 
     @GetMapping("/list")
@@ -49,5 +48,11 @@ public class DisciplinaController implements DisciplinaOpenApi {
     public ResponseEntity<Disciplina> deleteDisciplina(@PathVariable Long id) {
         service.deleteDisciplina(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<DisciplinaResponseDto> updateDisciplina(@PathVariable Long id, @RequestBody @Valid DisciplinaRequestDto dto) {
+        DisciplinaResponseDto response = disciplinaService.updateDisciplina(dto, id);
+        return ResponseEntity.ok(response);
     }
 }

@@ -13,7 +13,7 @@ public class Boletim {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String descricao;
+    private Long id_disciplina;
 
     private Long id_professor;
 
@@ -29,9 +29,9 @@ public class Boletim {
     public Boletim() {
     }
 
-    public Boletim(Long id, String descricao, Long id_professor, Long id_aluno, Double n1, Double n2, Double media) {
+    public Boletim(Long id, Long id_disciplina, Long id_professor, Long id_aluno, Double n1, Double n2, Double media) {
         this.id = id;
-        this.descricao = descricao;
+        this.id_disciplina = id_disciplina;
         this.id_professor = id_professor;
         this.id_aluno = id_aluno;
         this.n1 = n1;
@@ -43,12 +43,12 @@ public class Boletim {
         return id;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Long getId_disciplina() {
+        return id_disciplina;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setId_disciplina(Long id_disciplina) {
+        this.id_disciplina = id_disciplina;
     }
 
     public Long getId_professor() {

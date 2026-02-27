@@ -1,9 +1,12 @@
 package org.example.apidiogo.Service;
 
+import jakarta.validation.Valid;
 import org.example.apidiogo.Dto.*;
 import org.example.apidiogo.Exception.AdminNotFoundException;
+import org.example.apidiogo.Exception.AlunoNotFoundException;
 import org.example.apidiogo.Exception.BoletimNotFoundException;
 import org.example.apidiogo.Model.Admin;
+import org.example.apidiogo.Model.Aluno;
 import org.example.apidiogo.Model.Boletim;
 import org.example.apidiogo.Model.Disciplina;
 import org.example.apidiogo.Repository.BoletimRepository;
@@ -28,7 +31,7 @@ public class BoletimService {
         boletim.setId_professor(dto.getId_professor());
         boletim.setN1(dto.getN1());
         boletim.setN2(dto.getN2());
-        boletim.setDescricao(dto.getDescricao());
+        boletim.setId_disciplina(dto.getId_disciplina());
         boletim.setMedia(boletim.calcularMedia());
         return boletim;
     }
@@ -36,7 +39,7 @@ public class BoletimService {
     private BoletimResponseDto toResponseDto(Boletim boletim) {
         return new BoletimResponseDto(
                 boletim.getId(),
-                boletim.getDescricao(),
+                boletim.getId_disciplina(),
                 boletim.getId_professor(),
                 boletim.getId_aluno(),
                 boletim.getN1(),
@@ -70,6 +73,20 @@ public class BoletimService {
         Boletim boletim = boletimRepository.findById(id)
                 .orElseThrow(() -> new BoletimNotFoundException("Boletim com id " + id +" não foi encontrado: 404"));
         boletimRepository.delete(boletim);
+    }
+
+    public BoletimResponseDto updateBoletim(@Valid BoletimRequestDto boletimAtualizado, Long id) {
+        Boletim existente = boletimRepository.findById(id)
+                .orElseThrow(() -> new BoletimNotFoundException("Boletim com o id " + id + " não encontrado"));
+        existente.setId_disciplina(boletimAtualizado.getId_disciplina());
+        existente.setMedia(boletimAtualizado.getMedia());
+        existente.setN1(boletimAtualizado.getN1());
+        existente.setN2(boletimAtualizado.getN2());
+        existente.setId_professor(boletimAtualizado.getId_professor());
+        existente.setId_aluno(boletimAtualizado.getId_aluno());
+
+        Boletim atualizado = boletimRepository.save(existente);
+        return toResponseDto(atualizado);
     }
 
 }

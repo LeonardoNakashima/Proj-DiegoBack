@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                     .password(aluno.getSenha())
                     .authorities("ROLE_ALUNO")
                     .build();
-        } else if (username.matches("^(?!admin$).+\n")) {
+        } else if (username.matches("^[a-zA-Z0-9._-]+$")) {
             Professor professor = professorRepository.findByUsuario(username)
                     .orElseThrow(() -> new UsernameNotFoundException("Professor não encontrado"));
             return User.withUsername(professor.getUsuario())
