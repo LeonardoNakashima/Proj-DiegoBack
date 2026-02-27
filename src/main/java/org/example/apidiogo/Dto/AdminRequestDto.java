@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Size;
 
 public class AdminRequestDto {
 
-    private Long id;
-
     @Valid
     @NotNull(message = "usuario não pode ser nula")
     @Size(min = 3, message = "O nome do admin deve ter 3 ou mais caracteres")
@@ -17,10 +15,6 @@ public class AdminRequestDto {
     @NotNull(message = "Senha não pode ser nula")
     @Size(min = 8, message = "Senha deve ter mais de 8 caracteres")
     private String senha;
-
-    public Long getId() {
-        return id;
-    }
 
     public String getUsuario() {
         return usuario;
