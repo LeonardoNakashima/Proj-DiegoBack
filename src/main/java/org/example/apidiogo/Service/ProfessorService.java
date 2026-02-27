@@ -1,7 +1,11 @@
 package org.example.apidiogo.Service;
+import jakarta.validation.Valid;
+import org.example.apidiogo.Dto.AlunoRequestDto;
+import org.example.apidiogo.Dto.AlunoResponseDto;
 import org.example.apidiogo.Dto.ProfessorRequestDto;
 import org.example.apidiogo.Dto.ProfessorResponseDto;
 import org.example.apidiogo.Exception.ProfessorNotFoundException;
+import org.example.apidiogo.Model.Aluno;
 import org.example.apidiogo.Model.Professor;
 import org.example.apidiogo.Repository.ProfessorRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +27,15 @@ public class ProfessorService {
     ) {
         this.professorRepository = professorRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    private Professor fromRequestDTO(ProfessorRequestDto dto) {
+        Professor professor = new Professor();
+        professor.setNome(dto.getNome());
+        professor.setUsuario(dto.getUsuario());
+        String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
+        professor.setSenha(senhaCriptografada);
+        return professor;
     }
 
     private ProfessorResponseDto toResponseDto(Professor professor) {
@@ -55,23 +68,18 @@ public class ProfessorService {
         professorRepository.delete(professor);
     }
 
-    public ProfessorResponseDto inserirProfessor(ProfessorRequestDto request) {
+    public ProfessorResponseDto createProfessor(ProfessorRequestDto dto) {
+         Professor professor = fromRequestDTO(dto);
+         Professor salvo = professorRepository.save(professor);
+         return toResponseDto(salvo);
+    }
 
-        String senhaCriptografada =
-                passwordEncoder.encode(request.getSenha());
-
-        professorRepository.inserirProfessorComDisciplina(
-                request.getNome(),
-                request.getUsuario(),
-                senhaCriptografada,
-                request.getDisciplina()
-        );
-
-        Professor professor =
-                professorRepository.findByUsuario(request.getUsuario())
-                        .orElseThrow();
-
-        return toResponseDto(professor);
+    public ProfessorResponseDto updateProfessor(@Valid ProfessorRequestDto professorAtualizado, Long id) {
+        Professor existente = professorRepository.findProfessorById(id)
+                .orElseThrow(() -> new ProfessorNotFoundException("Professor com o id " + id + " não encontrado"));
+        existente.setNome(professorAtualizado.getNome());
+        Professor atualizado = professorRepository.save(existente);
+        return toResponseDto(atualizado);
     }
 }
 

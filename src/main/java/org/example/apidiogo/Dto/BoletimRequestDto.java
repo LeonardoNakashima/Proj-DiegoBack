@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 public class BoletimRequestDto {
 
     @Valid
-    private String descricao;
+    private Long id_disciplina;
 
     @Valid
     private Long id_professor;
@@ -22,51 +22,51 @@ public class BoletimRequestDto {
     @Valid
     private Double media;
 
-
-    public String getDescricao() {
-        return descricao;
+    public @Valid Long getId_disciplina() {
+        return id_disciplina;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setId_disciplina(@Valid Long id_disciplina) {
+        this.id_disciplina = id_disciplina;
     }
 
-    public Long getId_professor() {
+    public @Valid Long getId_professor() {
         return id_professor;
     }
 
-    public void setId_professor(Long id_professor) {
+    public void setId_professor(@Valid Long id_professor) {
         this.id_professor = id_professor;
     }
 
-    public Long getId_aluno() {
+    public @Valid Long getId_aluno() {
         return id_aluno;
     }
 
-    public void setId_aluno(Long id_aluno) {
+    public void setId_aluno(@Valid Long id_aluno) {
         this.id_aluno = id_aluno;
     }
 
-    public Double getN1() {
+    public @Valid Double getN1() {
         return n1;
     }
 
-    public void setN1(Double n1) {
+    public void setN1(@Valid Double n1) {
         this.n1 = n1;
     }
 
-    public Double getN2() {
+    public @Valid Double getN2() {
         return n2;
     }
 
-    public void setN2(Double n2) {
+    public void setN2(@Valid Double n2) {
         this.n2 = n2;
     }
 
-    public Double getMedia() {
+    public @Valid Double getMedia() {
         return media;
     }
-    public void setMedia(Double media) {
+
+    public void setMedia(@Valid Double media) {
         this.media = media;
     }
 }

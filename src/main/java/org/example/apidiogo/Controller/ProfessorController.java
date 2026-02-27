@@ -1,10 +1,16 @@
 package org.example.apidiogo.Controller;
 
 import jakarta.validation.Valid;
+import org.example.apidiogo.Dto.DisciplinaRequestDto;
+import org.example.apidiogo.Dto.DisciplinaResponseDto;
 import org.example.apidiogo.Dto.ProfessorRequestDto;
 import org.example.apidiogo.Dto.ProfessorResponseDto;
+import org.example.apidiogo.Exception.DisciplinaNotFoundException;
+import org.example.apidiogo.Exception.ProfessorNotFoundException;
+import org.example.apidiogo.Model.Disciplina;
 import org.example.apidiogo.Model.Professor;
 import org.example.apidiogo.Openapi.ProfessorOpenApi;
+import org.example.apidiogo.Repository.ProfessorRepository;
 import org.example.apidiogo.Service.ProfessorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +18,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/professor")
 public class ProfessorController implements ProfessorOpenApi {
 
     private final ProfessorService service;
+    private final ProfessorRepository professorRepository;
 
-    public ProfessorController(ProfessorService service) {
+    public ProfessorController(ProfessorService service, ProfessorRepository professorRepository) {
         this.service = service;
+        this.professorRepository = professorRepository;
     }
 
     @GetMapping("/list")
@@ -37,7 +46,7 @@ public class ProfessorController implements ProfessorOpenApi {
 
     @PostMapping("/create")
     public ResponseEntity<ProfessorResponseDto> createProfessor(@RequestBody @Valid ProfessorRequestDto dto) {
-       ProfessorResponseDto response = service.inserirProfessor(dto);
+       ProfessorResponseDto response = service.createProfessor(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -46,4 +55,6 @@ public class ProfessorController implements ProfessorOpenApi {
         service.deleteProfessor(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }

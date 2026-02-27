@@ -8,18 +8,22 @@ import org.example.apidiogo.Openapi.AdminOpenApi;
 import org.example.apidiogo.Service.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/Admin")
 public class AdminController implements AdminOpenApi {
 
     private final AdminService service;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminController(AdminService service) {
+
+    public AdminController(AdminService service, PasswordEncoder passwordEncoder) {
         this.service = service;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/list")
@@ -35,8 +39,6 @@ public class AdminController implements AdminOpenApi {
     }
 
 
-
-
     @PostMapping("/create")
     public ResponseEntity<AdminResponseDto> createAdmin(@RequestBody @Valid AdminRequestDto dto) {
         AdminResponseDto response = service.createAdmin(dto);
@@ -49,4 +51,9 @@ public class AdminController implements AdminOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<AdminResponseDto> updateAdmin(@PathVariable Long id, @RequestBody @Valid AdminRequestDto dto) {
+        AdminResponseDto response = service.updateAdmin(dto, id);
+        return ResponseEntity.ok(response);
+    }
 }

@@ -3,7 +3,7 @@ package org.example.apidiogo.Dto;
 public class BoletimResponseDto {
 
     private Long id;
-    private String descricao;
+    private Long id_disciplina;
     private Long id_professor;
     private Long id_aluno;
     private Double n1;
@@ -12,9 +12,9 @@ public class BoletimResponseDto {
 
     public BoletimResponseDto() {}
 
-    public BoletimResponseDto(Long id, String descricao, Long id_professor, Long id_aluno, Double n1, Double n2, Double media) {
+    public BoletimResponseDto(Long id, Long id_disciplina, Long id_professor, Long id_aluno, Double n1, Double n2, Double media) {
         this.id = id;
-        this.descricao = descricao;
+        this.id_disciplina = id_disciplina;
         this.id_professor = id_professor;
         this.id_aluno = id_aluno;
         this.n1 = n1;
@@ -25,8 +25,9 @@ public class BoletimResponseDto {
     public Long getId() {
         return id;
     }
-    public String getDescricao() {
-        return descricao;
+
+    public Long getId_disciplina() {
+        return id_disciplina;
     }
     public Long getId_professor() {
         return id_professor;

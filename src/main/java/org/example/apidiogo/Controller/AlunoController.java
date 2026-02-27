@@ -1,8 +1,13 @@
 package org.example.apidiogo.Controller;
 
 import jakarta.validation.Valid;
+import org.example.apidiogo.Dto.AdminRequestDto;
+import org.example.apidiogo.Dto.AdminResponseDto;
 import org.example.apidiogo.Dto.AlunoRequestDto;
 import org.example.apidiogo.Dto.AlunoResponseDto;
+import org.example.apidiogo.Exception.AdminNotFoundException;
+import org.example.apidiogo.Exception.AlunoNotFoundException;
+import org.example.apidiogo.Model.Admin;
 import org.example.apidiogo.Model.Aluno;
 import org.example.apidiogo.Openapi.AlunoOpenApi;
 import org.example.apidiogo.Repository.AlunoRepository;
@@ -12,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/aluno")
 public class AlunoController implements AlunoOpenApi {
@@ -46,6 +51,12 @@ public class AlunoController implements AlunoOpenApi {
     public ResponseEntity<Aluno> deleteAluno(@PathVariable Long matricula) {
         service.deleteAluno(matricula);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update/{matricula}")
+    public ResponseEntity<AlunoResponseDto> updateAluno(@PathVariable Long matricula, @RequestBody @Valid AlunoRequestDto dto) {
+        AlunoResponseDto response = service.updateAluno(dto, matricula);
+        return ResponseEntity.ok(response);
     }
 
 
